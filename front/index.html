@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <title>Minhas Compras (básico)</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <h1>🛒 Minhas Compras</h1>
+    <nav>
+      <button onclick="mostrarTela('tela-inicio')">Início</button>
+      <button onclick="mostrarTela('tela-listas')">Listas salvas</button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ===================== TELA: INÍCIO ===================== -->
+    <section id="tela-inicio" class="tela">
+      <h2>O que você quer fazer?</h2>
+      <button onclick="iniciarNovaLista('instant')">Lista na hora (já com preços)</button>
+      <button onclick="iniciarNovaLista('planned')">Lista pra fazer compras depois</button>
+    </section>
+
+    <!-- ===================== TELA: MONTAR LISTA (nova) ===================== -->
+    <section id="tela-nova" class="tela" style="display:none">
+      <h2 id="titulo-nova"></h2>
+
+      <div class="form-item">
+        <input id="novo-nome" placeholder="Nome do produto" />
+        <input id="novo-preco" placeholder="Preço unitário" inputmode="decimal" />
+        <input id="novo-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
+        <input id="novo-obs" placeholder="Observação (opcional)" />
+        <button onclick="adicionarItem()">+ Adicionar produto</button>
+      </div>
+
+      <ul id="lista-itens"></ul>
+
+      <p id="total-nova" class="total"></p>
+
+      <input id="nome-lista" placeholder="Nome da lista (ex.: Mercado do sábado)" />
+
+      <div class="acoes">
+        <button onclick="mostrarTela('tela-inicio')">Cancelar</button>
+        <button onclick="salvarLista()">Salvar</button>
+      </div>
+    </section>
+
+    <!-- ===================== TELA: LISTAS SALVAS ===================== -->
+    <section id="tela-listas" class="tela" style="display:none">
+      <h2>Compras feitas</h2>
+      <ul id="listas-feitas"></ul>
+
+      <h2>Compras pendentes</h2>
+      <ul id="listas-pendentes"></ul>
+    </section>
+
+    <!-- ===================== TELA: FAZER COMPRAS (lista pendente) ===================== -->
+    <section id="tela-comprar" class="tela" style="display:none">
+      <h2 id="titulo-comprar"></h2>
+
+      <div class="form-item">
+        <input id="comprar-nome" placeholder="Nome do produto" />
+        <input id="comprar-preco" placeholder="Preço unitário" inputmode="decimal" />
+        <input id="comprar-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
+        <input id="comprar-obs" placeholder="Observação (opcional)" />
+        <button onclick="adicionarItemCompra()">+ Adicionar produto</button>
+      </div>
+
+      <ul id="lista-itens-comprar"></ul>
+
+      <p id="total-comprar" class="total"></p>
+
+      <div class="acoes">
+        <button onclick="mostrarTela('tela-listas')">Voltar</button>
+        <button onclick="finalizarCompra()">Finalizar compra</button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
