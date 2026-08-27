@@ -231,25 +231,33 @@ function renderizarItensCompra() {
         <input type="text" inputmode="decimal" value="${item.quantity}"
           oninput="atualizarQtdCompra(${indice}, this.value)" style="width:60px;display:inline-block" />
         =
-        <strong>${formatarMoeda(subtotalItem(item))}</strong>
+        <strong id="subtotal-${indice}">${formatarMoeda(subtotalItem(item))}</strong>
       </div>
       <button class="remover" onclick="removerItemCompra(${indice})">x</button>
     `;
     lista.appendChild(li);
   });
 
+  atualizarTotalCompra();
+}
+
+function atualizarTotalCompra() {
   document.getElementById("total-comprar").textContent =
     `Total: ${formatarMoeda(totalDaLista(itensCompra))}`;
 }
 
 function atualizarPrecoCompra(indice, valor) {
   itensCompra[indice].unit_price = paraNumero(valor);
-  renderizarItensCompra();
+  document.getElementById(`subtotal-${indice}`).textContent =
+    formatarMoeda(subtotalItem(itensCompra[indice]));
+  atualizarTotalCompra();
 }
 
 function atualizarQtdCompra(indice, valor) {
   itensCompra[indice].quantity = paraNumero(valor) || 1;
-  renderizarItensCompra();
+  document.getElementById(`subtotal-${indice}`).textContent =
+    formatarMoeda(subtotalItem(itensCompra[indice]));
+  atualizarTotalCompra();
 }
 
 function removerItemCompra(indice) {

@@ -1,19 +1,19 @@
 """
-Para rodar:
-    pip install fastapi "uvicorn[standard]" sqlalchemy --break-system-packages
-    uvicorn main.py:app --reload
+    uvicorn main:app --reload
 """
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from routes.auth import auth
 from routes.listas import router
-from database import Base, engine
+from backend.database.database import Base, engine
 
 Base.metadata.create_all(bind=engine)  
 
 app = FastAPI(title="Minhas Compras")
 
 app.include_router(router)
+app.include_router(auth) 
 
 app.add_middleware(
     CORSMiddleware,

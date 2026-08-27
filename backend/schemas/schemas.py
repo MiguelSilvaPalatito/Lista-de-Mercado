@@ -1,8 +1,15 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
+class UserCreate(BaseModel):
+    email: EmailStr
+    password_hash: str
+
+class UserLogin(BaseModel):
+    email: EmailStr
+    password_hash: str
 
 class ItemInput(BaseModel):
     name: str
