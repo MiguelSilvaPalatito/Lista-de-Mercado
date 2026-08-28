@@ -1,9 +1,9 @@
 import datetime
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-import backend.schemas.schemas as schemas
-from backend.database.database import get_db
-from backend.models.lista import Lista
+import schemas.schemas as schemas
+from database.database import get_db
+from models.lista import Lista
 from core.securety import get_current_user
 
 

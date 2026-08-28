@@ -6,7 +6,7 @@ from models.user import User
 from schemas.schemas import UserCreate, UserLogin
 from core.securety import hash_password, verify_password, create_token, create_refresh_token
 
-auth = APIRouter(prefix="/auth")
+auth = APIRouter(prefix="/auth", tags=["auth"])
 
 @auth.post("/register")
 def register(

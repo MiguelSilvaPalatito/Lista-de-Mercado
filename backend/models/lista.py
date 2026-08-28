@@ -2,7 +2,7 @@ import datetime
 
 from sqlalchemy import Column, DateTime, ForeignKey, Float, Integer, JSON, String
 
-from backend.database.database import Base
+from database.database import Base
 
 
 class Lista(Base):
@@ -16,5 +16,5 @@ class Lista(Base):
     total = Column(Float, nullable=False, default=0)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
     completed_at = Column(DateTime, nullable=True)
-    user_id = Column(ForeignKey("user.id"), nullable=False)
+    user_id = Column(ForeignKey("User.id"), nullable=False)
 

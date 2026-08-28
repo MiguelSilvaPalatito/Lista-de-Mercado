@@ -2,85 +2,104 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Minhas Compras (básico)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minhas Compras</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <section id="tela-login" class="auth-tela">
+    <div class="auth-card">
+      <h1>🛒 Minhas Compras</h1>
+      <h2>Entrar</h2>
+      <form id="login-form">
+        <input id="login-email" type="email" placeholder="E-mail" required />
+        <input id="login-senha" type="password" placeholder="Senha" required />
+        <button type="submit">Entrar</button>
+      </form>
+      <p id="login-erro" class="erro"></p>
+      <p class="troca-auth">Ainda não tem conta?
+        <button type="button" class="link-button" onclick="mostrarAuth('cadastro')">Criar conta</button>
+      </p>
+    </div>
+  </section>
 
-  <header>
-    <h1>🛒 Minhas Compras</h1>
-    <nav>
-      <button onclick="mostrarTela('tela-inicio')">Início</button>
-      <button onclick="mostrarTela('tela-listas')">Listas salvas</button>
-    </nav>
-  </header>
+  <section id="tela-cadastro" class="auth-tela" style="display:none">
+    <div class="auth-card">
+      <h1>🛒 Minhas Compras</h1>
+      <h2>Criar conta</h2>
+      <form id="cadastro-form">
+        <input id="cadastro-email" type="email" placeholder="E-mail" required />
+        <input id="cadastro-senha" type="password" placeholder="Senha" minlength="6" required />
+        <input id="cadastro-senha-confirmacao" type="password" placeholder="Confirmar senha" minlength="6" required />
+        <button type="submit">Cadastrar</button>
+      </form>
+      <p id="cadastro-erro" class="erro"></p>
+      <p class="troca-auth">Já tem uma conta?
+        <button type="button" class="link-button" onclick="mostrarAuth('login')">Voltar para login</button>
+      </p>
+    </div>
+  </section>
 
-  <main>
+  <div id="app" style="display:none">
+    <header>
+      <h1>🛒 Minhas Compras</h1>
+      <nav>
+        <button onclick="mostrarTela('tela-inicio')">Início</button>
+        <button onclick="mostrarTela('tela-listas')">Listas salvas</button>
+        <button class="sair" onclick="logout()">Sair</button>
+      </nav>
+    </header>
 
-    <!-- ===================== TELA: INÍCIO ===================== -->
-    <section id="tela-inicio" class="tela">
-      <h2>O que você quer fazer?</h2>
-      <button onclick="iniciarNovaLista('instant')">Lista na hora (já com preços)</button>
-      <button onclick="iniciarNovaLista('planned')">Lista pra fazer compras depois</button>
-    </section>
+    <main>
+      <section id="tela-inicio" class="tela">
+        <h2>O que você quer fazer?</h2>
+        <button onclick="iniciarNovaLista('instant')">Lista na hora (já com preços)</button>
+        <button onclick="iniciarNovaLista('planned')">Lista pra fazer compras depois</button>
+      </section>
 
-    <!-- ===================== TELA: MONTAR LISTA (nova) ===================== -->
-    <section id="tela-nova" class="tela" style="display:none">
-      <h2 id="titulo-nova"></h2>
+      <section id="tela-nova" class="tela" style="display:none">
+        <h2 id="titulo-nova"></h2>
+        <div class="form-item">
+          <input id="novo-nome" placeholder="Nome do produto" />
+          <input id="novo-preco" placeholder="Preço unitário" inputmode="decimal" />
+          <input id="novo-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
+          <input id="novo-obs" placeholder="Observação (opcional)" />
+          <button onclick="adicionarItem()">+ Adicionar produto</button>
+        </div>
+        <ul id="lista-itens"></ul>
+        <p id="total-nova" class="total"></p>
+        <input id="nome-lista" placeholder="Nome da lista (ex.: Mercado do sábado)" />
+        <div class="acoes">
+          <button onclick="mostrarTela('tela-inicio')">Cancelar</button>
+          <button onclick="salvarLista()">Salvar</button>
+        </div>
+      </section>
 
-      <div class="form-item">
-        <input id="novo-nome" placeholder="Nome do produto" />
-        <input id="novo-preco" placeholder="Preço unitário" inputmode="decimal" />
-        <input id="novo-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
-        <input id="novo-obs" placeholder="Observação (opcional)" />
-        <button onclick="adicionarItem()">+ Adicionar produto</button>
-      </div>
+      <section id="tela-listas" class="tela" style="display:none">
+        <h2>Compras feitas</h2>
+        <ul id="listas-feitas"></ul>
+        <h2>Compras pendentes</h2>
+        <ul id="listas-pendentes"></ul>
+      </section>
 
-      <ul id="lista-itens"></ul>
-
-      <p id="total-nova" class="total"></p>
-
-      <input id="nome-lista" placeholder="Nome da lista (ex.: Mercado do sábado)" />
-
-      <div class="acoes">
-        <button onclick="mostrarTela('tela-inicio')">Cancelar</button>
-        <button onclick="salvarLista()">Salvar</button>
-      </div>
-    </section>
-
-    <!-- ===================== TELA: LISTAS SALVAS ===================== -->
-    <section id="tela-listas" class="tela" style="display:none">
-      <h2>Compras feitas</h2>
-      <ul id="listas-feitas"></ul>
-
-      <h2>Compras pendentes</h2>
-      <ul id="listas-pendentes"></ul>
-    </section>
-
-    <!-- ===================== TELA: FAZER COMPRAS (lista pendente) ===================== -->
-    <section id="tela-comprar" class="tela" style="display:none">
-      <h2 id="titulo-comprar"></h2>
-
-      <div class="form-item">
-        <input id="comprar-nome" placeholder="Nome do produto" />
-        <input id="comprar-preco" placeholder="Preço unitário" inputmode="decimal" />
-        <input id="comprar-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
-        <input id="comprar-obs" placeholder="Observação (opcional)" />
-        <button onclick="adicionarItemCompra()">+ Adicionar produto</button>
-      </div>
-
-      <ul id="lista-itens-comprar"></ul>
-
-      <p id="total-comprar" class="total"></p>
-
-      <div class="acoes">
-        <button onclick="mostrarTela('tela-listas')">Voltar</button>
-        <button onclick="finalizarCompra()">Finalizar compra</button>
-      </div>
-    </section>
-
-  </main>
-
+      <section id="tela-comprar" class="tela" style="display:none">
+        <h2 id="titulo-comprar"></h2>
+        <div class="form-item">
+          <input id="comprar-nome" placeholder="Nome do produto" />
+          <input id="comprar-preco" placeholder="Preço unitário" inputmode="decimal" />
+          <input id="comprar-qtd" placeholder="Quantidade" inputmode="decimal" value="1" />
+          <input id="comprar-obs" placeholder="Observação (opcional)" />
+          <button onclick="adicionarItemCompra()">+ Adicionar produto</button>
+        </div>
+        <ul id="lista-itens-comprar"></ul>
+        <p id="total-comprar" class="total"></p>
+        <div class="acoes">
+          <button onclick="mostrarTela('tela-listas')">Voltar</button>
+          <button onclick="finalizarCompra()">Finalizar compra</button>
+        </div>
+      </section>
+    </main>
+  </div>
   <script src="script.js"></script>
 </body>
 </html>
