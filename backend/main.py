@@ -15,7 +15,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Minhas Compras")
 
 app.include_router(router)
-app.include_router(auth, prefix="/auth", tags=["auth"]) 
+app.include_router(auth) 
 
 app.add_middleware(
     CORSMiddleware,
